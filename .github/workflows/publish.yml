@@ -1,0 +1,29 @@
+name: Publish Package to npm
+
+on:
+  push:
+    branches: [main] # 触发自动发布的分支（例如 main 或 master）
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # 指定 Node.js 版本
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: npm ci # 使用锁定版本安装依赖
+
+      - name: Run tests (可选)
+        run: npm test # 如果配置了测试
+
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # 引用 npm Token
