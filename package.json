@@ -1,0 +1,31 @@
+{
+  "name": "app-localization-cli",
+  "version": "1.0.0",
+  "description": "CLI tool for managing app localizations for iOS and Android",
+  "bin": {
+    "update-localizations": "./bin/update-localizations.js"
+  },
+  "files": [
+    "bin/"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "localization",
+    "i18n",
+    "ios",
+    "android",
+    "cli",
+    "capacitor",
+    "cordova",
+    "ionic"
+  ],
+  "author": "Yangguang",
+  "license": "MIT",
+  "dependencies": {
+    "fast-xml-parser": "^4.3.2",
+    "plist": "^3.1.0",
+    "xcode": "^3.0.1"
+  }
+}
