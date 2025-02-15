@@ -164,6 +164,7 @@ res/
 | English             | `en`      | `values`        |
 | Simplified Chinese  | `zh-Hans` | `values-zh-rCN` |
 | Traditional Chinese | `zh-Hant` | `values-zh-rTW` |
+| Other Languages     | ...       | ...             |
 
 ## Troubleshooting
 
