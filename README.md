@@ -135,9 +135,9 @@ Example Android output:
 ```
 res/
 ├── values/
-│   └── strings.xml          # <string name="app_name">My App</string>
+│   └── strings.xml          # <string name="title_activity_main">My App</string>
 └── values-zh-rCN/
-    └── strings.xml          # <string name="app_name">我的应用</string>
+    └── strings.xml          # <string name="title_activity_main">我的应用</string>
 ```
 
 ## Supported Keys
@@ -152,19 +152,19 @@ res/
 
 ### Android
 
-| Key        | Description         |
-| ---------- | ------------------- |
-| `app_name` | Application name    |
-| ...        | Any string resource |
+| Key                   | Description         |
+| --------------------- | ------------------- |
+| `title_activity_main` | Application title   |
+| ...                   | Any string resource |
 
 ## Language Code Mapping
 
-| Language            | iOS Code  | Android Code    |
-| ------------------- | --------- | --------------- |
-| English             | `en`      | `values`        |
-| Simplified Chinese  | `zh-Hans` | `values-zh-rCN` |
-| Traditional Chinese | `zh-Hant` | `values-zh-rTW` |
-| Other Languages     | ...       | ...             |
+| Language            | iOS Code  | Android Code                                      |
+| ------------------- | --------- | ------------------------------------------------- |
+| English             | `en`      | `values`                                          |
+| Simplified Chinese  | `zh-Hans` | `values-zh-rCN`                                   |
+| Traditional Chinese | `zh-Hant` | `values-zh-rTW`, `values-zh-rHK`, `values-zh-rMO` |
+| Other Languages     | ...       | ...                                               |
 
 ## Troubleshooting
 
