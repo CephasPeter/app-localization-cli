@@ -4,6 +4,14 @@ const fs = require("fs");
 const path = require("path");
 const { XMLParser, XMLBuilder } = require("fast-xml-parser");
 
+// 添加语言映射配置
+const LANGUAGE_MAPPINGS = {
+  // 简体中文
+  "zh-Hans": ["zh-rCN"],
+  // 繁体中文
+  "zh-Hant": ["zh-rHK", "zh-rTW", "zh-rMO"],
+};
+
 function parseExistingStrings(xmlPath) {
   if (!fs.existsSync(xmlPath)) {
     return {};
@@ -49,7 +57,22 @@ function escapeXmlValue(value) {
     .replace(/'/g, "&apos;");
 }
 
-// 修改为命名导出
+// 获取 Android 平台的语言目录名
+function getAndroidLanguageFolders(locale) {
+  // 如果是中文配置，返回映射的语言列表
+  if (LANGUAGE_MAPPINGS[locale]) {
+    return LANGUAGE_MAPPINGS[locale].map((lang) => `values-${lang}`);
+  }
+
+  // 对于英语，使用默认的 values 目录
+  if (locale === "en") {
+    return ["values"];
+  }
+
+  // 其他语言直接使用原始locale
+  return [`values-${locale}`];
+}
+
 async function updateAndroidLocalizations() {
   const projectRoot = process.cwd();
   const localizationsDir = path.join(projectRoot, "localizations");
@@ -93,55 +116,59 @@ async function updateAndroidLocalizations() {
           return;
         }
 
-        // 创建对应的语言资源目录
-        const folderName = locale === "en" ? "values" : `values-${locale}`;
-        const targetDir = path.join(androidResDir, folderName);
+        // 获取该语言对应的所有 Android 资源目录
+        const folderNames = getAndroidLanguageFolders(locale);
 
-        if (!fs.existsSync(targetDir)) {
-          fs.mkdirSync(targetDir, { recursive: true });
-        }
+        // 为每个目标语言创建资源文件
+        folderNames.forEach((folderName) => {
+          const targetDir = path.join(androidResDir, folderName);
 
-        const stringsXmlPath = path.join(targetDir, "strings.xml");
+          if (!fs.existsSync(targetDir)) {
+            fs.mkdirSync(targetDir, { recursive: true });
+          }
 
-        // 读取现有的字符串资源
-        const existingStrings = parseExistingStrings(stringsXmlPath);
+          const stringsXmlPath = path.join(targetDir, "strings.xml");
 
-        // 合并新的配置
-        const mergedStrings = {
-          ...existingStrings,
-          ...Object.fromEntries(
-            Object.entries(androidConfig).map(([key, value]) => [
-              key,
-              escapeXmlValue(value),
-            ])
-          ),
-        };
+          // 读取现有的字符串资源
+          const existingStrings = parseExistingStrings(stringsXmlPath);
 
-        // 生成新的 XML 内容
-        const xmlObj = {
-          resources: {
-            string: Object.entries(mergedStrings).map(([key, value]) => ({
-              "@_name": key,
-              "#text": value,
-            })),
-          },
-        };
+          // 合并新的配置
+          const mergedStrings = {
+            ...existingStrings,
+            ...Object.fromEntries(
+              Object.entries(androidConfig).map(([key, value]) => [
+                key,
+                escapeXmlValue(value),
+              ])
+            ),
+          };
 
-        const builder = new XMLBuilder({
-          format: true,
-          indentBy: "    ",
-          ignoreAttributes: false,
+          // 生成新的 XML 内容
+          const xmlObj = {
+            resources: {
+              string: Object.entries(mergedStrings).map(([key, value]) => ({
+                "@_name": key,
+                "#text": value,
+              })),
+            },
+          };
+
+          const builder = new XMLBuilder({
+            format: true,
+            indentBy: "    ",
+            ignoreAttributes: false,
+          });
+
+          const xmlContent = builder.build(xmlObj);
+
+          // 写入文件
+          fs.writeFileSync(stringsXmlPath, xmlContent, "utf8");
+          console.log(
+            `Updated ${stringsXmlPath} (merged ${
+              Object.keys(androidConfig).length
+            } strings)`
+          );
         });
-
-        const xmlContent = builder.build(xmlObj);
-
-        // 写入文件
-        fs.writeFileSync(stringsXmlPath, xmlContent, "utf8");
-        console.log(
-          `Updated ${stringsXmlPath} (merged ${
-            Object.keys(androidConfig).length
-          } strings)`
-        );
       } catch (error) {
         console.error(`Error processing ${file}:`, error);
       }

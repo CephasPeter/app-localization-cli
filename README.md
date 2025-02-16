@@ -71,7 +71,7 @@ Create JSON files in the `localizations` directory for each language:
     "NSUserTrackingUsageDescription": "We use tracking to improve your experience"
   },
   "android": {
-    "app_name": "My App",
+    "title_activity_main": "My App",
     "tracking_description": "We use tracking to improve your experience"
   }
 }
@@ -86,7 +86,7 @@ Create JSON files in the `localizations` directory for each language:
     "NSUserTrackingUsageDescription": "我们使用跟踪来改善您的体验"
   },
   "android": {
-    "app_name": "我的应用",
+    "title_activity_main": "我的应用",
     "tracking_description": "我们使用跟踪来改善您的体验"
   }
 }
