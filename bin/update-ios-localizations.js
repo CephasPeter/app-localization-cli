@@ -160,7 +160,7 @@ async function updateIOSLocalizations() {
         const newGroup = {
           isa: "PBXVariantGroup",
           name: "InfoPlist.strings",
-          sourceTree: "<group>",
+          sourceTree: '"<group>"',
           children: [],
         };
 
@@ -203,7 +203,7 @@ async function updateIOSLocalizations() {
             lastKnownFileType: "text.plist.strings",
             name: "InfoPlist.strings",
             path: `${lang}.lproj/InfoPlist.strings`,
-            sourceTree: "<group>",
+            sourceTree: '"<group>"',
           };
         }
       });
