@@ -67,12 +67,10 @@ Create JSON files in the `localizations` directory for each language:
 ```json
 {
   "ios": {
-    "CFBundleDisplayName": "My App",
-    "NSUserTrackingUsageDescription": "We use tracking to improve your experience"
+    "CFBundleDisplayName": "My App"
   },
   "android": {
-    "title_activity_main": "My App",
-    "tracking_description": "We use tracking to improve your experience"
+    "title_activity_main": "My App"
   }
 }
 ```
@@ -82,12 +80,10 @@ Create JSON files in the `localizations` directory for each language:
 ```json
 {
   "ios": {
-    "CFBundleDisplayName": "我的应用",
-    "NSUserTrackingUsageDescription": "我们使用跟踪来改善您的体验"
+    "CFBundleDisplayName": "我的应用"
   },
   "android": {
-    "title_activity_main": "我的应用",
-    "tracking_description": "我们使用跟踪来改善您的体验"
+    "title_activity_main": "我的应用"
   }
 }
 ```
@@ -144,11 +140,9 @@ res/
 
 ### iOS
 
-| Key                              | Description                 |
-| -------------------------------- | --------------------------- |
-| `CFBundleDisplayName`            | App name shown on device    |
-| `NSUserTrackingUsageDescription` | Tracking permission message |
-| ...                              | Any Info.plist key          |
+| Key                   | Description              |
+| --------------------- | ------------------------ |
+| `CFBundleDisplayName` | App name shown on device |
 
 ### Android
 
