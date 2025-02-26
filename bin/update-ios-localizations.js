@@ -82,11 +82,11 @@ async function updateIOSLocalizations() {
         }
 
         // 更新 Info.plist 中的变量引用
-        Object.keys(iosConfig).forEach((key) => {
-          if (infoPlist[key] !== undefined) {
-            infoPlist[key] = `$(${key})`;
-          }
-        });
+        // Object.keys(iosConfig).forEach((key) => {
+        //   if (infoPlist[key] !== undefined) {
+        //     infoPlist[key] = `$(${key})`;
+        //   }
+        // });
 
         // 生成 InfoPlist.strings 内容
         let content = "";
@@ -162,20 +162,8 @@ async function updateIOSLocalizations() {
       }
 
       if (!existingVariantGroup) {
-        // Generate the consistent ID for InfoPlist.strings
-        const infoPlistStringsId = generateUniqueId();
-
-        // 1. 添加主 InfoPlist.strings 引用到 PBXFileReference
-        const mainStringsFileId = infoPlistStringsId; // Use the consistent ID
-        proj.hash.project.objects.PBXFileReference[mainStringsFileId] = {
-          isa: "PBXFileReference",
-          lastKnownFileType: "text.plist.strings",
-          name: "en", // 使用 en 作为基础语言
-          path: "en.lproj/InfoPlist.strings",
-          sourceTree: '"<group>"',
-        };
-
-        // 2. 创建 PBXBuildFile 引用
+        const mainStringsFileId = generateUniqueId();
+        // 创建 PBXBuildFile 引用
         const buildFileId = generateUniqueId(); // Generate a *separate* unique ID for PBXBuildFile
         if (!proj.hash.project.objects.PBXBuildFile) {
           proj.hash.project.objects.PBXBuildFile = {};
@@ -185,19 +173,19 @@ async function updateIOSLocalizations() {
           fileRef: mainStringsFileId, // Refers to the PBXFileReference
         };
 
-        // 3. 创建 InfoPlist.strings 的 PBXGroup
-        const stringsGroupId = infoPlistStringsId; // Use the consistent ID
-        if (!proj.hash.project.objects.PBXGroup) {
-          proj.hash.project.objects.PBXGroup = {};
-        }
-        proj.hash.project.objects.PBXGroup[stringsGroupId] = {
-          isa: "PBXGroup",
-          children: [],
-          name: "InfoPlist.strings",
-          sourceTree: '"<group>"',
-        };
+        // 为每种语言创建 PBXFileReference
+        languages.forEach((lang) => {
+          const langFileId = generateUniqueId();
+          proj.hash.project.objects.PBXFileReference[langFileId] = {
+            isa: "PBXFileReference",
+            lastKnownFileType: "text.plist.strings",
+            name: lang,
+            path: `${lang}.lproj/InfoPlist.strings`,
+            sourceTree: '"<group>"',
+          };
+        });
 
-        // 4. 添加到 App 目录的 PBXGroup
+        // 添加到 App 目录的 PBXGroup
         const appGroup =
           proj.hash.project.objects.PBXGroup[pbxProject.mainGroup];
         const appChildren = appGroup.children.find(
@@ -208,31 +196,13 @@ async function updateIOSLocalizations() {
             proj.hash.project.objects.PBXGroup[appChildren.value];
           if (appGroupObj) {
             appGroupObj.children.push({
-              value: stringsGroupId,
+              value: mainStringsFileId,
               comment: "InfoPlist.strings",
             });
           }
         }
 
-        // 5. 为每种语言创建 PBXFileReference 并添加到 InfoPlist.strings group
-        languages.forEach((lang) => {
-          const langFileId = generateUniqueId();
-          proj.hash.project.objects.PBXFileReference[langFileId] = {
-            isa: "PBXFileReference",
-            lastKnownFileType: "text.plist.strings",
-            name: lang,
-            path: `${lang}.lproj/InfoPlist.strings`,
-            sourceTree: '"<group>"',
-          };
-
-          // 添加到 InfoPlist.strings group
-          proj.hash.project.objects.PBXGroup[stringsGroupId].children.push({
-            value: langFileId,
-            comment: lang,
-          });
-        });
-
-        // 6. 添加到 Resources build phase
+        // 添加到 Resources build phase
         const resourcesBuildPhase =
           proj.hash.project.objects.PBXResourcesBuildPhase;
         const resourcesPhaseKey = Object.keys(resourcesBuildPhase)[0];
@@ -244,46 +214,39 @@ async function updateIOSLocalizations() {
           comment: "InfoPlist.strings in Resources",
         });
 
-        // 7. 创建 PBXVariantGroup
-        const variantGroupId = infoPlistStringsId; // Use the consistent ID
+        // 创建 PBXVariantGroup
         if (!proj.hash.project.objects.PBXVariantGroup) {
           proj.hash.project.objects.PBXVariantGroup = {};
         }
-        proj.hash.project.objects.PBXVariantGroup[variantGroupId] = {
+        proj.hash.project.objects.PBXVariantGroup[mainStringsFileId] = {
           isa: "PBXVariantGroup",
-          children: [
-            {
-              value: mainStringsFileId,
-              comment: "en",
-            },
-          ],
+          children: [],
           name: "InfoPlist.strings",
           sourceTree: '"<group>"',
         };
 
         // 为每种语言添加到 variant group
         languages.forEach((lang) => {
-          if (lang !== "en") {
-            // Use the same langFileId from step 5
-            const langFileIdInFileReference = Object.keys(
-              proj.hash.project.objects.PBXFileReference
-            ).find((key) => {
-              const ref = proj.hash.project.objects.PBXFileReference[key];
-              return (
-                ref.name === lang &&
-                ref.path === `${lang}.lproj/InfoPlist.strings`
-              );
-            });
+          // if (lang !== "en") {
+          const langFileIdInFileReference = Object.keys(
+            proj.hash.project.objects.PBXFileReference
+          ).find((key) => {
+            const ref = proj.hash.project.objects.PBXFileReference[key];
+            return (
+              ref.name === lang &&
+              ref.path === `${lang}.lproj/InfoPlist.strings`
+            );
+          });
 
-            if (langFileIdInFileReference) {
-              proj.hash.project.objects.PBXVariantGroup[
-                variantGroupId
-              ].children.push({
-                value: langFileIdInFileReference,
-                comment: lang,
-              });
-            }
+          if (langFileIdInFileReference) {
+            proj.hash.project.objects.PBXVariantGroup[
+              mainStringsFileId
+            ].children.push({
+              value: langFileIdInFileReference,
+              comment: lang,
+            });
           }
+          // }
         });
       }
 

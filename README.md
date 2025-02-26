@@ -105,7 +105,7 @@ npx app-localization-cli --platform android
 
 1. Creates `.lproj` directories for each language
 2. Generates `InfoPlist.strings` files with localized values
-3. Updates `Info.plist` to use variable references
+3. Updates `Info.plist` to add CFBundleLocalizations values
 4. Updates Xcode project configuration to include new languages
 
 Example iOS output:
@@ -143,6 +143,7 @@ res/
 | Key                   | Description              |
 | --------------------- | ------------------------ |
 | `CFBundleDisplayName` | App name shown on device |
+| ...                   | Any string resource      |
 
 ### Android
 
@@ -164,7 +165,12 @@ res/
 
 ### Common Issues
 
-1. **Files Not Updated**
+1. **NSUserTrackingUsageDescription is empty after build**
+
+   Set a default value for `NSUserTrackingUsageDescription` in `Info.plist`.
+   Otherwise, it will be empty after build in `CFBundleDevelopmentRegion` language.
+
+2. **Files Not Updated**
 
    ```bash
    # Check if localizations directory exists
@@ -175,14 +181,14 @@ res/
    ls -l android/app/src/main/res
    ```
 
-2. **Wrong Directory Structure**
+3. **Wrong Directory Structure**
 
    ```bash
    # Should be in project root
    npx app-localization-cli --help
    ```
 
-3. **Invalid JSON Format**
+4. **Invalid JSON Format**
    ```bash
    # Validate JSON files
    cat localizations/*.json | jq '.'
