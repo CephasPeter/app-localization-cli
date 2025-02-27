@@ -81,12 +81,14 @@ async function updateIOSLocalizations() {
           fs.mkdirSync(lprojDir, { recursive: true });
         }
 
-        // 更新 Info.plist 中的变量引用
-        // Object.keys(iosConfig).forEach((key) => {
-        //   if (infoPlist[key] !== undefined) {
-        //     infoPlist[key] = `$(${key})`;
-        //   }
-        // });
+        // 更新 Info.plist 中的变量值, 更新为 CFBundleDevelopmentRegion 对应语言的 localizations 配置值
+        if (locale === infoPlist.CFBundleDevelopmentRegion) {
+          Object.keys(iosConfig).forEach((key) => {
+            if (infoPlist[key] !== undefined) {
+              infoPlist[key] = iosConfig[key];
+            }
+          });
+        }
 
         // 生成 InfoPlist.strings 内容
         let content = "";
@@ -113,7 +115,7 @@ async function updateIOSLocalizations() {
     }
   });
 
-  // 更新 Info.plist
+  // 更新 Info.plist 中的 CFBundleLocalizations
   if (languages.size > 0) {
     infoPlist.CFBundleLocalizations = Array.from(languages);
     fs.writeFileSync(infoPlistPath, plist.build(infoPlist));
