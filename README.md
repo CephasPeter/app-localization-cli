@@ -105,7 +105,7 @@ npx app-localization-cli --platform android
 
 1. Creates `.lproj` directories for each language
 2. Generates `InfoPlist.strings` files with localized values
-3. Updates `Info.plist` to add CFBundleLocalizations values
+3. Updates `Info.plist` to add CFBundleLocalizations and CFBundleDevelopmentRegion localizations values
 4. Updates Xcode project configuration to include new languages
 
 Example iOS output:
@@ -116,7 +116,7 @@ MyApp/
 │   └── InfoPlist.strings     # CFBundleDisplayName = "My App";
 ├── zh-Hans.lproj/
 │   └── InfoPlist.strings     # CFBundleDisplayName = "我的应用";
-└── Info.plist                # CFBundleDisplayName = "$(CFBundleDisplayName)";
+└── Info.plist                # CFBundleDisplayName = "My App";
 ```
 
 ### Android
