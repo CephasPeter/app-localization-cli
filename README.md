@@ -1,4 +1,4 @@
-# App Localization CLI
+# App Localization CLI (ALC)
 
 A simple CLI tool for managing app localizations for iOS and Android projects using Capacitor or Cordova.
 
@@ -8,6 +8,12 @@ A simple CLI tool for managing app localizations for iOS and Android projects us
 🔄 Automatic Resource Updates  
 🌐 Multiple Language Support  
 ⚡️ Easy to Use
+
+## Apps use ALC
+
+- [w3s](https://yangguang2009.github.io/w3s/): Easy frontend tutorials for beginners.
+- [ZhenJiuBiJi](https://yangguang2009.github.io/zhenjiubiji/): Acupuncture and Meridian points learning app.
+- Welcome add your app here...
 
 ## Installation & Usage
 
