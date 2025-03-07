@@ -11,8 +11,8 @@ A simple CLI tool for managing app localizations for iOS and Android projects us
 
 ## Apps use ALC
 
+- [AcuNote](https://yangguang2009.github.io/acunote/): Acupuncture and Meridian points learning app.
 - [W3S](https://yangguang2009.github.io/w3s/): Easy frontend tutorials for beginners.
-- [ZhenJiuBiJi](https://yangguang2009.github.io/zhenjiubiji/): Acupuncture and Meridian points learning app.
 - Welcome add your app here...
 
 ## Installation & Usage
