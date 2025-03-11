@@ -13,7 +13,8 @@ A simple CLI tool for managing app localizations for iOS and Android projects us
 
 - [AcuNote](https://yangguang2009.github.io/acunote/): Acupuncture and Meridian points learning app.
 - [W3S](https://yangguang2009.github.io/w3s/): Easy frontend tutorials for beginners.
-- Welcome add your app here...
+- [Classical Chinese](https://yangguang2009.github.io/classicalchinese): Learn Classical Chinese Easily.
+- Welcome to add your app here...
 
 ## Installation & Usage
 
