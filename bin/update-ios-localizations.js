@@ -84,26 +84,26 @@ async function updateIOSLocalizations() {
         // 更新 Info.plist 中的变量值, 更新为 CFBundleDevelopmentRegion 对应语言的 localizations 配置值
         if (locale === infoPlist.CFBundleDevelopmentRegion) {
           Object.keys(iosConfig).forEach((key) => {
-            if (infoPlist[key] !== undefined) {
-              infoPlist[key] = iosConfig[key];
-            }
+            // if (infoPlist[key] !== undefined) {
+            infoPlist[key] = iosConfig[key];
+            // }
           });
         }
 
         // 生成 InfoPlist.strings 内容
         let content = "";
         Object.entries(iosConfig).forEach(([key, value]) => {
-          if (infoPlist[key] !== undefined) {
-            const escapedValue = value
-              .replace(/\\/g, "\\\\")
-              .replace(/"/g, '\\"')
-              .replace(/\n/g, "\\n");
-            content += `${key} = "${escapedValue}";\n`;
-          } else {
-            console.warn(
-              `Warning: Key "${key}" not found in Info.plist, skipping...`
-            );
-          }
+          // if (infoPlist[key] !== undefined) {
+          const escapedValue = value
+            .replace(/\\/g, "\\\\")
+            .replace(/"/g, '\\"')
+            .replace(/\n/g, "\\n");
+          content += `${key} = "${escapedValue}";\n`;
+          // } else {
+          //   console.warn(
+          //     `Warning: Key "${key}" not found in Info.plist, skipping...`
+          //   );
+          // }
         });
 
         const stringsPath = path.join(lprojDir, "InfoPlist.strings");
