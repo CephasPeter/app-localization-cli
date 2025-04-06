@@ -1,7 +1,7 @@
 {
-  "name": "app-localization-cli",
+  "name": "app-flutter-localization-cli",
   "version": "1.0.16",
-  "description": "A simple CLI tool for managing app localizations for iOS and Android projects using Capacitor or Cordova.",
+  "description": "A simple CLI tool for managing app localizations for iOS and Android projects using Flutter.",
   "author": "Yangguang",
   "bin": {
     "update-localizations": "./bin/update-localizations.js"
@@ -19,18 +19,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yangguang2009/app-localization-cli.git"
+    "url": "https://github.com/CephasPeter/app-localization-cli.git"
   },
-  "homepage": "https://github.com/yangguang2009/app-localization-cli#readme",
+  "homepage": "https://github.com/CephasPeter/app-localization-cli#readme",
   "keywords": [
     "localization",
     "i18n",
     "ios",
     "android",
-    "cli",
-    "capacitor",
-    "cordova",
-    "ionic"
+    "flutter"
   ],
   "license": "MIT"
 }
