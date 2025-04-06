@@ -11,8 +11,7 @@ async function updateIOSLocalizations() {
 
   // 查找 iOS 工程目录
   const possibleIosPaths = [
-    path.join(projectRoot, "ios", "App", "App"),
-    path.join(projectRoot, "ios", "App"),
+    path.join(projectRoot, "ios", "Runner"),
   ];
 
   let iosResDir = null;
@@ -22,7 +21,7 @@ async function updateIOSLocalizations() {
       iosResDir = dir;
       xcodeProjectPath = path.join(
         path.dirname(dir),
-        "App.xcodeproj",
+        "Runner.xcodeproj",
         "project.pbxproj"
       );
       break;
@@ -31,7 +30,7 @@ async function updateIOSLocalizations() {
 
   if (!iosResDir) {
     console.log(
-      "iOS project directory not found. Make sure you have run 'npx cap add ios' first."
+      "iOS project directory not found. Make sure you have run 'flutter create --platforms=ios' first."
     );
     return;
   }
