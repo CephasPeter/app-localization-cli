@@ -23,7 +23,7 @@ A simple CLI tool for managing app localizations for iOS and Android projects us
 No installation needed! Just run with npx:
 
 ```bash
-npx app-localization-cli
+npx https://github.com/CephasPeter/app-localization-cli.git
 ```
 
 Or install globally if you prefer:
